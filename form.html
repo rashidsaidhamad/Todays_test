@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Range Validator</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Links Generator</h1>
+    <form id="form">
+        <p>Start Range:</p>
+        <label><input type="text" id="startRange" value="1"></label>
+        <p>End Range:</p>
+        <label><input type="text" id="endRange" value="1"></label>
+        <button type="button" onclick="validateRange()">displayTable</button>
+    </form>
+
+    <div id="message"></div>
+    <div id="tableContainer" class="hidden">
+        <table>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const data = ["syllabus.html", "p1.html", "p2.html", "style.html", "email.html", "system.html", "process.html"];
+        const endRange = data.length;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('message').textContent = `Valid Range: 1-${endRange}`;
+        });
+
+        function validateRange() {
+            const startRange = parseInt(document.getElementById('startRange').value);
+            const endRangeInput = parseInt(document.getElementById('endRange').value);
+            const messageDiv = document.getElementById('message');
+            const tableContainer = document.getElementById('tableContainer');
+            const tableBody = document.getElementById('tableBody');
+
+            messageDiv.classList.add('hidden');
+            tableContainer.classList.add('hidden');
+            tableBody.innerHTML = '';
+
+            if (startRange >= 1 && endRangeInput <= endRange && startRange <= endRangeInput) {
+                for (let i = startRange - 1; i <= endRangeInput - 1; i++) {
+                    const row = document.createElement('tr');
+                    const linkCell = document.createElement('td');
+                    const link = document.createElement('a');
+                    link.href = data[i];
+                    link.textContent = data[i];
+                    linkCell.appendChild(link);
+                    row.appendChild(linkCell);
+                    tableBody.appendChild(row);
+                }
+                tableContainer.classList.remove('hidden');
+            } else {
+                messageDiv.textContent = `Invalid range. Please enter a valid range: 1-${endRange}.`;
+                messageDiv.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
